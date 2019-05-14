@@ -6,7 +6,7 @@
 /*   By: lloyet <lloyet@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/14 15:42:45 by lloyet       #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/14 17:17:27 by lloyet      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/14 22:12:06 by lloyet      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,6 +15,7 @@
 # define _SMLX_H
 
 # include "../libft/inc/libft.h"
+# include "../libhook/inc/libhook.h"
 # include "../payload/inc/payload.h"
 # include "../minilibx_macos/mlx.h"
 
@@ -44,9 +45,10 @@ typedef struct		s_image
 typedef struct		s_framework
 {
 	void			*id;
-	t_node			*win_it;
+	t_node			*it;
 	t_payload		*win;
-	double			frame;
+	t_mouse			*mouse;
+	t_keyboard		*keyboard;
 }					t_framework;
 
 void				image_clear(t_image *img);
@@ -59,9 +61,9 @@ void				image_attach(t_image *img, t_window *win);
 
 void				window_destroy(void *win);
 t_window			*new_window(void *mlx_id, int width, int heigh, char *title);
+t_window			*window_found(t_framework *mlx, char *title);
 
-void				framework_add(t_framework *mlx, t_window *win);
-void				framework_remove(t_framework *mlx);
+void				framework_new_window(t_framework *mlx, int width, int heigh, char *title);
 void				framework_destroy(t_framework *framework);
 t_framework			*new_framework(int width, int heigh, char *title);
 

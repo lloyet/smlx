@@ -6,7 +6,7 @@
 /*   By: lloyet <lloyet@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/14 16:03:40 by lloyet       #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/14 16:21:25 by lloyet      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/14 22:11:45 by lloyet      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,6 +21,20 @@ void				window_destroy(void *content)
 	mlx_destroy_window(win->mlx_id, win->id);
 	free(win);
 	return ;
+}
+
+t_window			*window_found(t_framework *mlx, char *title)
+{
+	t_node			*cur;
+
+	cur = mlx->win->begin;
+	while (cur)
+	{
+		if (ft_strcmp(title, ((t_window*)cur->content)->title))
+			return ((t_window*)cur->content);
+		cur = cur->child;
+	}
+	return (0);
 }
 
 t_window			*new_window(void *mlx_id, int width, int heigh, char *title)
