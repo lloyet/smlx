@@ -6,7 +6,7 @@
 /*   By: lloyet <lloyet@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/14 16:03:40 by lloyet       #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/14 22:11:45 by lloyet      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/18 23:23:29 by lloyet      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,9 +17,12 @@ void				window_destroy(void *content)
 {
 	t_window		*win;
 
-	win = (t_window*)content;
-	mlx_destroy_window(win->mlx_id, win->id);
-	free(win);
+	if (content)
+	{
+		win = (t_window*)content;
+		mlx_destroy_window(win->mlx_id, win->id);
+		free(win);
+	}
 	return ;
 }
 
