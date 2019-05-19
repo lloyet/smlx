@@ -6,17 +6,20 @@
 /*   By: lloyet <lloyet@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/13 20:37:34 by lloyet       #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/14 22:42:56 by lloyet      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/19 15:27:56 by lloyet      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../inc/smlx.h"
 
-static int			destroy_hook(void)
+void				framework_destroy(t_framework *mlx)
 {
-	exit(1);
-	return (0);
+	mouse_destroy(mlx->mouse);
+	keyboard_destroy(mlx->keyboard);
+	payload_destroy(mlx->win);
+	free(mlx);
+	return ;
 }
 
 static void			register_hook(t_framework *mlx, t_window *win)
@@ -29,16 +32,7 @@ static void			register_hook(t_framework *mlx, t_window *win)
 	return ;
 }
 
-void				framework_destroy(t_framework *mlx)
-{
-	mouse_destroy(mlx->mouse);
-	keyboard_destroy(mlx->keyboard);
-	payload_destroy(mlx->win);
-	free(mlx);
-	return ;
-}
-
-t_framework			*new_framework(int width, int heigh, char *title)
+t_framework			*new_framework(t_info *info)
 {
 	t_framework		*mlx;
 	t_window		*win;
@@ -51,25 +45,24 @@ t_framework			*new_framework(int width, int heigh, char *title)
 		return (0);
 	if (!(mlx->mouse = new_mouse(mlx->keyboard)))
 		return (0);
-	if (!(win = new_window(mlx->id, width, heigh, title)))
+	if (!(win = new_window(mlx->id, info)))
 		return (0);
 	if (!(mlx->win = new_payload((void*)win, &window_destroy)))
 		return (0);
 	mlx->it = new_iterator(mlx->win);
 	register_hook(mlx, win);
-	mlx_hook(win->id, DESTROYNOTIFY, STRUCTURENOTIFYMASK, destroy_hook, 0);
 	return (mlx);
 }
 
-void				framework_new_window(t_framework *mlx, int width, int heigh, char *title)
+int					framework_add_window(t_framework *mlx, t_info *info)
 {
 	t_window		*win;
 
-	if (!(win = new_window(mlx->id, width, heigh, title)))
-		return ;
+	if (!(win = new_window(mlx->id, info)))
+		return (0);
 	register_hook(mlx, win);
 	payload_add(mlx->win, mlx->it, (void*)win);
-	return ;
+	return (1);
 }
 
 

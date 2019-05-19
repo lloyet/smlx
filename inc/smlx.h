@@ -6,7 +6,7 @@
 /*   By: lloyet <lloyet@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/14 15:42:45 by lloyet       #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/14 22:12:06 by lloyet      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/19 15:27:45 by lloyet      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,13 +21,19 @@
 
 # define RGBA(r,g,b,a)				(a << 24) | (r << 16) | (g << 8) | (b)
 
+typedef struct		s_info
+{
+	uint64_t		id;
+	int				width;
+	int				heigh;
+	char			*title;
+}					t_info;
+
 typedef struct		s_window
 {
 	void			*id;
 	void			*mlx_id;
-	int				width;
-	int				heigh;
-	char			*title;
+	t_info			*info;
 }					t_window;
 
 typedef struct		s_image
@@ -60,11 +66,14 @@ t_image				*new_image(t_window *win, int width, int heigh);
 void				image_attach(t_image *img, t_window *win);
 
 void				window_destroy(void *win);
-t_window			*new_window(void *mlx_id, int width, int heigh, char *title);
-t_window			*window_found(t_framework *mlx, char *title);
+t_window			*new_window(void *mlx_id, t_info *info);
+t_window			*window_found(t_framework *mlx, uint64_t info_id);
 
 void				framework_new_window(t_framework *mlx, int width, int heigh, char *title);
 void				framework_destroy(t_framework *framework);
-t_framework			*new_framework(int width, int heigh, char *title);
+t_framework			*new_framework(t_info *info);
+int					framework_add_window(t_framework *mlx, t_info *info);
+
+t_info				*new_info(int width, int heigh, char *title);
 
 # endif

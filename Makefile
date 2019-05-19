@@ -29,6 +29,7 @@ SRC =	framework.c \
 		window.c \
 		image.c \
 		draw.c \
+		info.c \
 		
 OBJ	= $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
