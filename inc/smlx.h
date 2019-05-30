@@ -6,7 +6,7 @@
 /*   By: lloyet <lloyet@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/14 15:42:45 by lloyet       #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/19 15:27:45 by lloyet      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/05/29 15:53:12 by lloyet      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,39 +20,43 @@
 # include "../minilibx_macos/mlx.h"
 
 # define RGBA(r,g,b,a)				(a << 24) | (r << 16) | (g << 8) | (b)
-
-typedef struct		s_info
-{
-	uint64_t		id;
-	int				width;
-	int				heigh;
-	char			*title;
-}					t_info;
+# define RED						0x00FF0000
+# define GREEN						0x0000FF00
+# define BLUE						0x000000FF
+# define ALPHA						0xFF000000
 
 typedef struct		s_window
 {
 	void			*id;
 	void			*mlx_id;
-	t_info			*info;
+	t_node			*it;
+	t_payload		*img;
+	int				width;
+	int				heigh;
+	char			*title;
+	int				(*event)(void*);
 }					t_window;
 
 typedef struct		s_image
 {
 	void			*id;
-	t_window		*win;
+	void			*mlx_id;
 	char			*data;
 	int				bpp;
 	int				size_l;
 	int				endian;
 	int				width;
 	int				heigh;
+	int				dock_x;
+	int				dock_y;
 }					t_image;
 
 typedef struct		s_framework
 {
 	void			*id;
+	t_window		*cur;
 	t_node			*it;
-	t_payload		*win;
+	t_payload		*window;
 	t_mouse			*mouse;
 	t_keyboard		*keyboard;
 }					t_framework;
@@ -61,19 +65,22 @@ void				image_clear(t_image *img);
 void				image_pixel_put(t_image *img, int x, int y, int color);
 void				image_fill(t_image *img, int color);
 
-void				image_destroy(t_image *img);
-t_image				*new_image(t_window *win, int width, int heigh);
-void				image_attach(t_image *img, t_window *win);
+void				image_destroy(void *content);
+t_image				*new_image(void *mlx_id, int width, int heigh);
+void				image_dock(t_image *img, int x, int y);
 
-void				window_destroy(void *win);
-t_window			*new_window(void *mlx_id, t_info *info);
-t_window			*window_found(t_framework *mlx, uint64_t info_id);
+t_window			*new_window(void *mlx_id, t_image *bg, char *title, int (*event)(void*));
 
-void				framework_new_window(t_framework *mlx, int width, int heigh, char *title);
+void				window_add_image(t_window *win, t_image *img);
+void				window_del_image(t_window *win, t_image *img);
+void				window_refresh(t_window *win);
+
 void				framework_destroy(t_framework *framework);
-t_framework			*new_framework(t_info *info);
-int					framework_add_window(t_framework *mlx, t_info *info);
+t_framework			*new_framework(void);
+t_node				*framework_find_window(t_framework *mlx, t_window *win);
 
-t_info				*new_info(int width, int heigh, char *title);
+int					framework_init(t_framework *mlx, t_window *win);
+void				framework_open_window(t_framework *mlx, t_window *win);
+void				framework_close_window(t_framework *mlx, t_window *win);
 
 # endif

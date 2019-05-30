@@ -26,10 +26,11 @@ OBJDIR = ./obj/
 LIBDIR = ../
 
 SRC =	framework.c \
+		framework_utils.c \
 		window.c \
+		window_utils.c \
 		image.c \
 		draw.c \
-		info.c \
 		
 OBJ	= $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
