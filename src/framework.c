@@ -6,14 +6,14 @@
 /*   By: lloyet <lloyet@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/04/13 20:37:34 by lloyet       #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/27 21:22:12 by lloyet      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/02 20:57:20 by lloyet      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../inc/smlx.h"
 
-void				framework_destroy(t_framework *mlx)
+void				smlx_destroy(t_smlx *mlx)
 {
 	mouse_destroy(mlx->mouse);
 	keyboard_destroy(mlx->keyboard);
@@ -23,11 +23,11 @@ void				framework_destroy(t_framework *mlx)
 	return ;
 }
 
-t_framework			*new_framework(void)
+t_smlx				*new_smlx(void)
 {
-	t_framework		*mlx;
+	t_smlx		*mlx;
 
-	if (!(mlx = (t_framework *)ft_memalloc(sizeof(t_framework))))
+	if (!(mlx = (t_smlx *)ft_memalloc(sizeof(t_smlx))))
 		return (0);
 	if (!(mlx->id = mlx_init()))
 		return (0);
@@ -38,12 +38,12 @@ t_framework			*new_framework(void)
 	return (mlx);
 }
 
-void				framework_del_window(t_framework *mlx, t_window *win)
+void				smlx_del_window(t_smlx *mlx, t_window *win)
 {
 	if (win != mlx->window->begin->content)
 	{
 		if (win != mlx->cur)
-			mlx->it = framework_find_window(mlx, win);
+			mlx->it = smlx_find_window(mlx, win);
 		payload_remove(mlx->window, &mlx->it);
 		mlx->cur = (t_window*)mlx->it->content;
 	}
@@ -51,14 +51,14 @@ void				framework_del_window(t_framework *mlx, t_window *win)
 	return ;
 }
 
-void				framework_close_window(t_framework *mlx, t_window *win)
+void				smlx_close_window(t_smlx *mlx, t_window *win)
 {
 	mlx_destroy_window(win->mlx_id, win->id);
-	framework_del_window(mlx, win);
+	smlx_del_window(mlx, win);
 	return ;
 }
 
-t_node				*framework_find_window(t_framework *mlx, t_window *win)
+t_node				*smlx_find_window(t_smlx *mlx, t_window *win)
 {
 	t_node			*cur;
 

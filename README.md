@@ -38,7 +38,8 @@ How To:
 
 		1) Create (NOT OPEN) a window from the background image:
 
-			t_window		*new_window(void *mlx_id, t_image *bg, char *title, int (*event)(void*));
+			t_window		*new_window(t_image *bg, char *title, int (*event)(void*), void *param);
+
 
 		2) Add or remove an image to/from a window:
 
@@ -49,17 +50,26 @@ How To:
 
 			void			window_refresh(t_window *win);
 
-	- FRAMEWORK:
+		4) Refresh window's loop event
+
+			void			window_loop_event(t_window *win);
+
+
+	- SMLX:
 
 		1) Create sketch framework:
 
-			t_framework		*new_framework(void);
+			t_smlx			*new_smlx(void);
 
 		2) Initalize framework:
 
-			int				framework_init(t_framework *mlx, t_window *win);
+			int				smlx_init(t_smlx *smlx, t_window *win);
 
 		3) Open And Close Windows previously created with exemples explain before:
 
-			void			framework_open_window(t_framework *mlx, t_window *win);
-			void			framework_close_window(t_framework *mlx, t_window *win);
+			void			smlx_open_window(t_smlx *smlx, t_window *win);
+			void			smlx_close_window(t_smlx *smlx, t_window *win);
+
+		4) Destroy smlx's framework:
+
+			void			smlx_destroy(t_smlx *smlx);

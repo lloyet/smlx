@@ -6,7 +6,7 @@
 /*   By: lloyet <lloyet@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/05/22 22:38:44 by lloyet       #+#   ##    ##    #+#       */
-/*   Updated: 2019/05/29 21:14:36 by lloyet      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/06/02 20:34:15 by lloyet      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,5 +49,11 @@ void				window_refresh(t_window *win)
 		mlx_put_image_to_window(win->mlx_id, win->id, img->id, img->dock_x, img->dock_y);
 		cur = cur->child;
 	}
+	return ;
+}
+
+void				window_loop_event(t_window *win)
+{
+	(*win->event)(win->param);
 	return ;
 }

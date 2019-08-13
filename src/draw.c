@@ -25,6 +25,50 @@ void				image_pixel_put(t_image *img, int x, int y, int color)
 	return ;
 }
 
+void				image_circle(t_image *img, int x0, int y0, int radius, int color)
+{
+	int				f;
+	int				ddf_x;
+	int				ddf_y;
+	int				x;
+	int				y;
+
+	while (radius > 0)
+	{
+		f = 1 - radius;
+		ddf_x = 0;
+		ddf_y = -2 * radius;
+		x = 0;
+		y = radius;
+		image_pixel_put(img, x0, y0 + radius, color);
+		image_pixel_put(img, x0, y0 - radius, color);
+		image_pixel_put(img, x0 + radius, y0, color);
+		image_pixel_put(img, x0 - radius, y0, color);
+		while(x < y) 
+		{
+			if(f >= 0) 
+			{
+				y--;
+				ddf_y += 2;
+				f += ddf_y;
+			}
+			x++;
+			ddf_x += 2;
+			f += ddf_x + 1;
+			image_pixel_put(img, x0 + x, y0 + y, color);
+			image_pixel_put(img, x0 - x, y0 + y, color);
+			image_pixel_put(img, x0 + x, y0 - y, color);
+			image_pixel_put(img, x0 - x, y0 - y, color);
+			image_pixel_put(img, x0 + y, y0 + x, color);
+			image_pixel_put(img, x0 - y, y0 + x, color);
+			image_pixel_put(img, x0 + y, y0 - x, color);
+			image_pixel_put(img, x0 - y, y0 - x, color);
+		}
+		radius--;
+	}
+	return ;
+}
+
 void				image_fill(t_image *img, int color)
 {
 	int				n;
